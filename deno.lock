@@ -1,0 +1,36 @@
+{
+  "version": "5",
+  "redirects": {
+    "https://esm.sh/@supabase/supabase-js@2": "https://esm.sh/@supabase/supabase-js@2.81.0"
+  },
+  "remote": {
+    "https://esm.sh/@supabase/auth-js@2.81.0/denonext/auth-js.mjs": "b5fd37fcb23c29d8aced42fa5860351b2c3cdf6c93f682f5ad18eae9a5ec975f",
+    "https://esm.sh/@supabase/functions-js@2.81.0/denonext/functions-js.mjs": "9d372092ef779df5229d5dfdb99418b18a3ca13aa2c75bdfc2bb800152e63209",
+    "https://esm.sh/@supabase/postgrest-js@2.81.0/denonext/postgrest-js.mjs": "06f7dfb7d7a12928ca6b032ff85c08da7e615bde3d6ce8296a15f6e5275b9c67",
+    "https://esm.sh/@supabase/realtime-js@2.81.0/denonext/realtime-js.mjs": "9dd5143d77cf76c29eeaba47d275ba175b1757d95de746c6ac47dcc9cc20dc35",
+    "https://esm.sh/@supabase/storage-js@2.81.0/denonext/storage-js.mjs": "a1fd4ba5177e3929f8ef2d0e3a67925bc2a8fe3a44842c86ed272fe8ab4d32ac",
+    "https://esm.sh/@supabase/supabase-js@2.81.0": "3770fbb84be9073d4e9961daf72e0b750d9af22be7798386a487e653ab8ce0b5",
+    "https://esm.sh/@supabase/supabase-js@2.81.0/denonext/supabase-js.mjs": "14d334ff59edbb57f86e22c7b63ffe9b0ba16987884b7cbcd028d460714a57fc",
+    "https://esm.sh/tslib@2.8.1/denonext/tslib.mjs": "ebce3cd5facb654623020337f867b426ba95f71596ba87acc9e6c6f4e55905ca"
+  },
+  "workspace": {
+    "packageJson": {
+      "dependencies": [
+        "npm:@types/maplibre-gl@^3.6.0",
+        "npm:@types/node@20",
+        "npm:@types/react-dom@^18.2.0",
+        "npm:@types/react@^18.2.0",
+        "npm:autoprefixer@^10.4.0",
+        "npm:eslint-config-next@14",
+        "npm:eslint@8",
+        "npm:maplibre-gl@^3.6.2",
+        "npm:next@14",
+        "npm:postcss@^8.4.0",
+        "npm:react-dom@^18.2.0",
+        "npm:react@^18.2.0",
+        "npm:tailwindcss@^3.3.0",
+        "npm:typescript@5"
+      ]
+    }
+  }
+}

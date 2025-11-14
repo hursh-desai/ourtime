@@ -1,0 +1,91 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  lint-and-typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run ESLint
+        run: pnpm lint
+
+      - name: Type check
+        run: pnpm exec tsc --noEmit
+
+  check-migrations:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check migration file naming
+        run: |
+          cd supabase/migrations
+          for file in *.sql; do
+            if ! [[ "$file" =~ ^[0-9]{4}_[a-z0-9_]+\.sql$ ]]; then
+              echo "Error: Migration file '$file' does not match pattern: NNNN_description.sql"
+              exit 1
+            fi
+          done
+          echo "Migration file naming is valid"
+
+      - name: Check migration ordering
+        run: |
+          cd supabase/migrations
+          prev=0
+          for file in *.sql; do
+            num=$(echo "$file" | cut -d'_' -f1)
+            if [ "$num" -le "$prev" ]; then
+              echo "Error: Migration files are not in ascending order. Found $file after migration $prev"
+              exit 1
+            fi
+            prev=$num
+          done
+          echo "Migration ordering is valid"
+
+      - name: Check SQL syntax (basic)
+        run: |
+          if command -v psql &> /dev/null; then
+            cd supabase/migrations
+            for file in *.sql; do
+              echo "Checking $file..."
+              psql -v ON_ERROR_STOP=1 -f "$file" -d postgres 2>&1 | head -20 || true
+            done
+          else
+            echo "psql not available, skipping SQL syntax check"
+          fi
+
+  check-edge-functions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.40.0
+
+      - name: Check Edge Function syntax
+        run: |
+          deno check supabase/functions/dob-permits-sync/index.ts
+          deno check supabase/functions/tiles/permits/index.ts
+

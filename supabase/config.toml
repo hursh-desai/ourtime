@@ -1,0 +1,12 @@
+# Supabase configuration file
+# Defines Edge Functions and scheduled jobs
+
+[functions.dob-permits-sync]
+verify_jwt = false
+
+[functions.tiles]
+verify_jwt = false
+
+# Note: Scheduled jobs should be configured using pg_cron extension in database migrations
+# or through the Supabase dashboard under Database → Cron Jobs
+
