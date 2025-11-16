@@ -344,6 +344,21 @@ src as (
     p.permit_status,
     p.permit_issuance_date,
     p.borough,
+    -- Essential popup fields
+    p.work_type,
+    p.job_type,
+    p.expiration_date,
+    p.job_start_date,
+    p.nta_name,
+    p.permit_number,
+    p.zipcode,
+    -- Extract from raw jsonb to avoid joins
+    coalesce(p.raw->>'house__', p.raw->>'house_no') as house_no,
+    p.raw->>'street_name' as street_name,
+    p.raw->>'filing_date' as filing_date_str,
+    p.raw->>'filing_status' as filing_status,
+    p.raw->>'owner_s_business_name' as owner_business_name,
+    p.raw->>'permittee_s_business_name' as permittee_business_name,
     ST_Transform(p.geom_4326, 3857) as g3857
   from public.dob_permits p, params
   where p.geom_4326 is not null
@@ -361,6 +376,20 @@ mvtgeom as (
     permit_status, 
     permit_issuance_date, 
     borough,
+    -- Essential popup fields
+    work_type,
+    job_type,
+    expiration_date,
+    job_start_date,
+    nta_name,
+    permit_number,
+    zipcode,
+    house_no,
+    street_name,
+    filing_date_str,
+    filing_status,
+    owner_business_name,
+    permittee_business_name,
     -- Zoom-aware simplification: reduce vertex load at low zooms
     ST_AsMVTGeom(
       case
